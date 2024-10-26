@@ -4075,6 +4075,13 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
 				     &current_level, &current_mode);
 	if (ret < 0)
 		return ret;
+	if (ret == 0) {
+		/*
+		 * XXX: The T14s oled reports a broken max brightness of 0.
+		 * Actual maximum might be higher than 2047
+		 */
+		bl->max = 2047;
+	}
 
 	props.type = BACKLIGHT_RAW;
 	props.brightness = current_level;

@@ -971,7 +971,7 @@
 };
 
 &mdss_dp0_out {
-	data-lanes = <0 1 2 3>;
+	data-lanes = <0 1>;
 };
 
 &mdss_dp1 {
@@ -979,7 +979,7 @@
 };
 
 &mdss_dp1_out {
-	data-lanes = <0 1 2 3>;
+	data-lanes = <0 1>;
 };
 
 &mdss_dp3 {

@@ -1,3 +1,38 @@
+linux-qcom-x1e (6.11.0-50.50) oracular; urgency=medium
+
+  [ Krzysztof Kozlowski ]
+  * arm64: dts: qcom: change labels to lower-case
+
+  [ Rob Herring (Arm) ]
+  * arm64: dts: qcom: Drop undocumented domain "idle-state-name"
+
+  [ Abel Vesa ]
+  * arm64: dts: qcom: x1e80100: Add node uart14
+
+  [ Jonathan Marek ]
+  * arm64: dts: qcom: x1e80100: enable OTG on USB-C controllers
+
+  [ Konrad Dybcio ]
+  * arm64: dts: qcom: x1e80100: Affirm IDR0.CCTW on apps_smmu
+  * arm64: dts: qcom: x1e80100-romulus: Add lid switch
+  * arm64: dts: qcom: x1e80100-romulus: Set up USB Multiport controller
+
+  [ Johan Hovold ]
+  * arm64: dts: qcom: x1e80100-microsoft-romulus: fix nvme regulator boot glitch
+
+  [ Konrad Dybcio ]
+  * dt-bindings: serial: Allow embedded-controller as child node
+  * dt-bindings: platform: Add Surface System Aggregator Module
+  * platform/surface: Add OF support
+
+  [ Maya Matuszczyk ]
+  * arm64: dts: qcom: x1e80100: Add debug uart to Lenovo Yoga Slim 7x
+
+  [ Johan Hovold ]
+  * arm64: dts: qcom: x1e80100-yoga-slim7x: fix nvme regulator boot glitch
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Wed, 13 Nov 2024 02:07:53 +0100
+
 linux-qcom-x1e (6.11.0-49.49) oracular; urgency=medium
 
   * Revert "arm64: dts: qcom: x1e80100-t14s: force 2 data lanes for each DP"

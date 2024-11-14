@@ -4661,18 +4661,21 @@
 		};
 
 		cci0: cci@ac15000 {
-			compatible = "qcom,sm8250-cci", "qcom,msm8996-cci";
-			#address-cells = <1>;
-			#size-cells = <0>;
-
+			compatible = "qcom,x1e80100-cci", "qcom,msm8996-cci";
 			reg = <0 0x0ac15000 0 0x1000>;
-			interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
-			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
 
-			clocks = <&camcc CAM_CC_CPAS_AHB_CLK>,
+			interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
+
+			clocks = <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
+				 <&camcc CAM_CC_SLOW_AHB_CLK_SRC>,
+				 <&camcc CAM_CC_CPAS_AHB_CLK>,
 				 <&camcc CAM_CC_CCI_0_CLK>;
-			clock-names = "cpas_ahb",
+			clock-names = "camnoc_axi",
+				      "slow_ahb_src",
+				      "cpas_ahb",
 				      "cci";
+
+			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
 
 			pinctrl-0 = <&cci0_default>;
 			pinctrl-1 = <&cci0_sleep>;
@@ -4702,12 +4705,18 @@
 
 			reg = <0 0x0ac16000 0 0x1000>;
 			interrupts = <GIC_SPI 271 IRQ_TYPE_EDGE_RISING>;
+
+			clocks = <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
+				 <&camcc CAM_CC_SLOW_AHB_CLK_SRC>,
+				 <&camcc CAM_CC_CPAS_AHB_CLK>,
+				 <&camcc CAM_CC_CCI_1_CLK>;
+			clock-names = "camnoc_axi",
+				      "slow_ahb_src",
+				      "cpas_ahb",
+				      "cci";
+
 			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
 
-			clocks = <&camcc CAM_CC_CPAS_AHB_CLK>,
-				 <&camcc CAM_CC_CCI_1_CLK>;
-			clock-names = "cpas_ahb",
-				      "cci";
 
 			pinctrl-0 = <&cci1_default>;
 			pinctrl-1 = <&cci1_sleep>;

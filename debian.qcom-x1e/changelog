@@ -1,3 +1,18 @@
+linux-qcom-x1e (6.11.0-51.51) oracular; urgency=medium
+
+  [ Abel Vesa ]
+  * arm64: dts: qcom: x1e78100-t14s: Add display brightness control support
+
+  [ Sibi Sankar ]
+  * arm64: dts: qcom: x1e80100-dell-xps13-9345: Add Left/Right Speakers and Tweeter
+
+  [ Tobias Heider ]
+  * arm64: dts: qcom: Sync Samsung Galaxy Book4 Edge DTS
+  * arm64: dts: qcom: x1e80100-t14s: force 2 data lanes for each DP
+  * Revert "arm64: dts: qcom: x1e80100: Add debug uart to Lenovo Yoga Slim 7x"
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Sat, 16 Nov 2024 19:10:39 +0100
+
 linux-qcom-x1e (6.11.0-50.50) oracular; urgency=medium
 
   [ Krzysztof Kozlowski ]

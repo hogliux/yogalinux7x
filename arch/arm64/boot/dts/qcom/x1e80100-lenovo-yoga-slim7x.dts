@@ -20,10 +20,6 @@
 		serial1 = &uart14;
 	};
 
-	chosen {
-		stdout-path = "serial0:115200n8";
-	};
-
 	pmic-glink {
 		compatible = "qcom,x1e80100-pmic-glink",
 			     "qcom,sm8550-pmic-glink",
@@ -1458,11 +1454,6 @@
 		enable-gpios = <&tlmm 116 GPIO_ACTIVE_HIGH>;
 		max-speed = <3200000>;
 	};
-};
-
-&uart21 {
-	compatible = "qcom,geni-debug-uart";
-	status = "okay";
 };
 
 &usb_1_ss0_hsphy {

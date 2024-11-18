@@ -362,8 +362,6 @@
 
 		pinctrl-0 = <&nvme_reg_en>;
 		pinctrl-names = "default";
-
-		regulator-boot-on;
 	};
 
 	vreg_rtmr0_1p15: regulator-rtmr0-1p15 {

@@ -1,3 +1,13 @@
+linux-qcom-x1e (6.11.0-53.53) oracular; urgency=medium
+
+  [ Jens Glathe ]
+  * arm64: dts: qcom: x1e80100-hp-x14: fix touchpad enablement
+
+  [ Tobias Heider ]
+  * Revert "arm64: dts: qcom: x1e80100-yoga-slim7x: fix nvme regulator boot glitch"
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Mon, 18 Nov 2024 11:51:06 +0100
+
 linux-qcom-x1e (6.11.0-52.52) oracular; urgency=medium
 
   [ Steev Klimaszewski ]

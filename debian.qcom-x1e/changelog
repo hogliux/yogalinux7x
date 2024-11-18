@@ -1,3 +1,15 @@
+linux-qcom-x1e (6.11.0-52.52) oracular; urgency=medium
+
+  [ Steev Klimaszewski ]
+  * bluetooth: qca: generate nvm fw name from boardid for WCN6855
+
+  [ Jens Glathe ]
+  * arm64: dts: qcom: x1e80100-hp-x14: fix nvme regulator boot glitch
+  * arm64: dts: qcom: x1e80100-hp-x14: Enable external DP
+  * arm64: dts: qcom: x1e80100-hp-x14: add pwm-backlight functionality
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Mon, 18 Nov 2024 02:15:50 +0100
+
 linux-qcom-x1e (6.11.0-51.51) oracular; urgency=medium
 
   [ Abel Vesa ]

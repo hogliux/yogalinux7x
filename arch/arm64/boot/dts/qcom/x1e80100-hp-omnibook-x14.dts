@@ -24,6 +24,16 @@
 		serial1 = &uart14;
 	};
 
+	backlight: backlight {
+		compatible = "pwm-backlight";
+		pwms = <&pmk8550_pwm 0 5000000>;
+		enable-gpios = <&pmc8380_3_gpios 4 GPIO_ACTIVE_HIGH>;
+		power-supply = <&vreg_edp_bl>;
+
+		pinctrl-0 = <&edp_bl_en>, <&edp_bl_pwm>;
+		pinctrl-names = "default";
+	};
+
 	gpio-keys {
 		compatible = "gpio-keys";
 
@@ -132,17 +142,6 @@
 		};
 	};
 
-	vph_pwr: vph-pwr-regulator {
-		compatible = "regulator-fixed";
-
-		regulator-name = "vph_pwr";
-		regulator-min-microvolt = <3700000>;
-		regulator-max-microvolt = <3700000>;
-
-		regulator-always-on;
-		regulator-boot-on;
-	};
-
 	vreg_edp_3p3: regulator-edp-3p3 {
 		compatible = "regulator-fixed";
 
@@ -159,6 +158,55 @@
 		regulator-boot-on;
 	};
 
+	vreg_edp_bl: regulator-edp-bl {
+		compatible = "regulator-fixed";
+
+		regulator-name = "VBL9";
+		regulator-min-microvolt = <3600000>;
+		regulator-max-microvolt = <3600000>;
+
+		gpio = <&pmc8380_3_gpios 10 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp_bl_reg_en>;
+
+		regulator-boot-on;
+	};
+
+	vreg_misc_3p3: regulator-misc-3p3 {
+		compatible = "regulator-fixed";
+
+		regulator-name = "VREG_MISC_3P3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpio = <&pm8550ve_8_gpios 6 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&misc_3p3_reg_en>;
+
+		regulator-boot-on;
+		regulator-always-on;
+	};
+
+	vreg_nvme: regulator-nvme {
+		compatible = "regulator-fixed";
+
+		regulator-name = "VREG_NVME_3P3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpio = <&tlmm 18 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&nvme_reg_en>;
+
+		regulator-boot-on;
+	};
+
 	vreg_rtmr0_1p15: regulator-rtmr0-1p15 {
 		compatible = "regulator-fixed";
 
@@ -166,11 +214,13 @@
 		regulator-min-microvolt = <1150000>;
 		regulator-max-microvolt = <1150000>;
 
-		gpio = <&pm8550ve_8_gpios 8 GPIO_ACTIVE_HIGH>;
+		gpio = <&pmc8380_5_gpios 8 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 
 		pinctrl-0 = <&rtmr0_1p15_reg_en>;
 		pinctrl-names = "default";
+
+		regulator-boot-on;
 	};
 
 	vreg_rtmr0_1p8: regulator-rtmr0-1p8 {
@@ -185,6 +235,8 @@
 
 		pinctrl-0 = <&rtmr0_1p8_reg_en>;
 		pinctrl-names = "default";
+
+		regulator-boot-on;
 	};
 
 	vreg_rtmr0_3p3: regulator-rtmr0-3p3 {
@@ -199,6 +251,8 @@
 
 		pinctrl-0 = <&rtmr0_3p3_reg_en>;
 		pinctrl-names = "default";
+
+		regulator-boot-on;
 	};
 
 	vreg_rtmr1_1p15: regulator-rtmr1-1p15 {
@@ -211,8 +265,10 @@
 		gpio = <&tlmm 188 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 
-		pinctrl-names = "default";
 		pinctrl-0 = <&rtmr1_1p15_reg_en>;
+		pinctrl-names = "default";
+
+		regulator-boot-on;
 	};
 
 	vreg_rtmr1_1p8: regulator-rtmr1-1p8 {
@@ -225,8 +281,10 @@
 		gpio = <&tlmm 175 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 
-		pinctrl-names = "default";
 		pinctrl-0 = <&rtmr1_1p8_reg_en>;
+		pinctrl-names = "default";
+
+		regulator-boot-on;
 	};
 
 	vreg_rtmr1_3p3: regulator-rtmr1-3p3 {
@@ -239,22 +297,21 @@
 		gpio = <&tlmm 186 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 
-		pinctrl-names = "default";
 		pinctrl-0 = <&rtmr1_3p3_reg_en>;
+		pinctrl-names = "default";
+
+		regulator-boot-on;
 	};
 
-	vreg_nvme: regulator-nvme {
+	vreg_vph_pwr: regulator-vph-pwr {
 		compatible = "regulator-fixed";
 
-		regulator-name = "VREG_NVME_3P3";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
+		regulator-name = "vreg_vph_pwr";
+		regulator-min-microvolt = <3700000>;
+		regulator-max-microvolt = <3700000>;
 
-		gpio = <&tlmm 18 GPIO_ACTIVE_HIGH>;
-		enable-active-high;
-
-		pinctrl-0 = <&nvme_reg_en>;
-		pinctrl-names = "default";
+		regulator-always-on;
+		regulator-boot-on;
 	};
 };
 
@@ -263,8 +320,8 @@
 		compatible = "qcom,pm8550-rpmh-regulators";
 		qcom,pmic-id = "b";
 
-		vdd-bob1-supply = <&vph_pwr>;
-		vdd-bob2-supply = <&vph_pwr>;
+		vdd-bob1-supply = <&vreg_vph_pwr>;
+		vdd-bob2-supply = <&vreg_vph_pwr>;
 		vdd-l1-l4-l10-supply = <&vreg_s4c_1p8>;
 		vdd-l2-l13-l14-supply = <&vreg_bob1>;
 		vdd-l5-l16-supply = <&vreg_bob1>;
@@ -401,7 +458,7 @@
 		vdd-l1-supply = <&vreg_s5j_1p2>;
 		vdd-l2-supply = <&vreg_s1f_0p7>;
 		vdd-l3-supply = <&vreg_s1f_0p7>;
-		vdd-s4-supply = <&vph_pwr>;
+		vdd-s4-supply = <&vreg_vph_pwr>;
 
 		vreg_s4c_1p8: smps4 {
 			regulator-name = "vreg_s4c_1p8";
@@ -439,7 +496,7 @@
 		vdd-l1-supply = <&vreg_s1f_0p7>;
 		vdd-l2-supply = <&vreg_s1f_0p7>;
 		vdd-l3-supply = <&vreg_s4c_1p8>;
-		vdd-s1-supply = <&vph_pwr>;
+		vdd-s1-supply = <&vreg_vph_pwr>;
 
 		vreg_l1d_0p8: ldo1 {
 			regulator-name = "vreg_l1d_0p8";
@@ -492,7 +549,7 @@
 		vdd-l1-supply = <&vreg_s5j_1p2>;
 		vdd-l2-supply = <&vreg_s5j_1p2>;
 		vdd-l3-supply = <&vreg_s5j_1p2>;
-		vdd-s1-supply = <&vph_pwr>;
+		vdd-s1-supply = <&vreg_vph_pwr>;
 
 		vreg_s1f_0p7: smps1 {
 			regulator-name = "vreg_s1f_0p7";
@@ -530,8 +587,8 @@
 		vdd-l1-supply = <&vreg_s4c_1p8>;
 		vdd-l2-supply = <&vreg_s5j_1p2>;
 		vdd-l3-supply = <&vreg_s1f_0p7>;
-		vdd-s1-supply = <&vph_pwr>;
-		vdd-s2-supply = <&vph_pwr>;
+		vdd-s1-supply = <&vreg_vph_pwr>;
+		vdd-s2-supply = <&vreg_vph_pwr>;
 
 		vreg_s1i_0p9: smps1 {
 			regulator-name = "vreg_s1i_0p9";
@@ -576,7 +633,7 @@
 		vdd-l1-supply = <&vreg_s1f_0p7>;
 		vdd-l2-supply = <&vreg_s5j_1p2>;
 		vdd-l3-supply = <&vreg_s1f_0p7>;
-		vdd-s5-supply = <&vph_pwr>;
+		vdd-s5-supply = <&vreg_vph_pwr>;
 
 		vreg_s5j_1p2: smps5 {
 			regulator-name = "vreg_s5j_1p2";
@@ -618,6 +675,10 @@
 
 &i2c0 {
 	clock-frequency = <400000>;
+
+	pinctrl-0 = <&qup_i2c0_data_clk>, <&tpad_default>;
+	pinctrl-names = "default";
+
 	status = "okay";
 
 	keyboard@3a {
@@ -626,6 +687,9 @@
 
 		hid-descr-addr = <0x1>;
 		interrupts-extended = <&tlmm 67 IRQ_TYPE_LEVEL_LOW>;
+
+		vdd-supply = <&vreg_misc_3p3>;
+		vddl-supply = <&vreg_l12b_1p2>;
 
 		pinctrl-0 = <&kybd_default>;
 		pinctrl-names = "default";
@@ -640,6 +704,9 @@
 		hid-descr-addr = <0x1>;
 		interrupts-extended = <&tlmm 3 IRQ_TYPE_LEVEL_LOW>;
 
+		vdd-supply = <&vreg_misc_3p3>;
+		vddl-supply = <&vreg_l12b_1p2>;
+
 		pinctrl-0 = <&tpad_default>;
 		pinctrl-names = "default";
 
@@ -649,6 +716,7 @@
 
 &i2c1 {
 	clock-frequency = <400000>;
+
 	status = "okay";
 
 	/* type-c PS8830 Retimer #2 0x8 */
@@ -657,6 +725,7 @@
 
 &i2c3 {
 	clock-frequency = <400000>;
+
 	status = "okay";
 
 	typec-mux@8 {
@@ -666,14 +735,22 @@
 		clocks = <&rpmhcc RPMH_RF_CLK3>;
 		clock-names = "xo";
 
-		vdd15-supply = <&vreg_rtmr0_1p15>;
-		vdd18-supply = <&vreg_rtmr0_1p8>;
+		vdd-supply = <&vreg_rtmr0_1p15>;
 		vdd33-supply = <&vreg_rtmr0_3p3>;
+		vdd33-cap-supply = <&vreg_rtmr0_3p3>;
+		vddar-supply = <&vreg_rtmr0_1p15>;
+		vddat-supply = <&vreg_rtmr0_1p15>;
+		vddio-supply = <&vreg_rtmr0_1p8>;
 
-		reset-gpios = <&pm8550_gpios 10 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&pm8550_gpios 10 GPIO_ACTIVE_LOW>;
 
-		retimer-switch;
+		pinctrl-0 = <&rtmr0_default>;
+		pinctrl-names = "default";
+
 		orientation-switch;
+		retimer-switch;
+
+		ps8830,boot-on;
 
 		ports {
 			#address-cells = <1>;
@@ -708,6 +785,7 @@
 
 &i2c4 {
 	clock-frequency = <400000>;
+
 	status = "okay";
 
 	/* is active on Windows */
@@ -736,6 +814,7 @@
 
 &i2c7 {
 	clock-frequency = <400000>;
+
 	status = "okay";
 
 	typec-mux@8 {
@@ -745,14 +824,22 @@
 		clocks = <&rpmhcc RPMH_RF_CLK4>;
 		clock-names = "xo";
 
-		vdd15-supply = <&vreg_rtmr1_1p15>;
-		vdd18-supply = <&vreg_rtmr1_1p8>;
+		vdd-supply = <&vreg_rtmr1_1p15>;
 		vdd33-supply = <&vreg_rtmr1_3p3>;
+		vdd33-cap-supply = <&vreg_rtmr1_3p3>;
+		vddar-supply = <&vreg_rtmr1_1p15>;
+		vddat-supply = <&vreg_rtmr1_1p15>;
+		vddio-supply = <&vreg_rtmr1_1p8>;
 
-		reset-gpios = <&tlmm 176 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&tlmm 176 GPIO_ACTIVE_LOW>;
 
-		retimer-switch;
+		pinctrl-0 = <&rtmr1_default>;
+		pinctrl-names = "default";
+
 		orientation-switch;
+		retimer-switch;
+
+		ps8830,boot-on;
 
 		ports {
 			#address-cells = <1>;
@@ -788,6 +875,7 @@
 
 &i2c8 {
 	clock-frequency = <400000>;
+
 	status = "okay";
 
 	touchscreen@10 {
@@ -797,6 +885,9 @@
 		hid-descr-addr = <0x1>;
 		interrupts-extended = <&tlmm 51 IRQ_TYPE_LEVEL_LOW>;
 
+		vdd-supply = <&vreg_misc_3p3>;
+		vddl-supply = <&vreg_l15b_1p8>;
+
 		pinctrl-0 = <&ts0_default>;
 		pinctrl-names = "default";
 	};	
@@ -804,6 +895,7 @@
 
 &i2c9 {
 	clock-frequency = <400000>;
+
 	status = "okay";
 
 	/* is active on Windows */
@@ -818,7 +910,7 @@
 };
 
 &mdss_dp0_out {
-	data-lanes = <0 1 2 3>;
+	data-lanes = <0 1>;
 };
 
 &mdss_dp1 {
@@ -826,7 +918,7 @@
 };
 
 &mdss_dp1_out {
-	data-lanes = <0 1 2 3>;
+	data-lanes = <0 1>;
 };
 
 &mdss_dp3 {
@@ -838,11 +930,9 @@
 	aux-bus {
 		panel {
 			compatible = "edp-panel";
-			enable-gpios = <&pmc8380_3_gpios 4 GPIO_ACTIVE_HIGH>;
 			power-supply = <&vreg_edp_3p3>;
 
-			pinctrl-0 = <&edp_bl_en>;
-			pinctrl-names = "default";
+			backlight = <&backlight>;
 
 			port {
 				edp_panel_in: endpoint {
@@ -910,27 +1000,39 @@
 };
 
 &pm8550_gpios {
+	rtmr0_default: rtmr0-reset-n-active-state {
+		pins = "gpio10";
+		function = "normal";
+		power-source = <1>; /* 1.8V */
+		bias-disable;
+		input-disable;
+		output-enable;
+	};
+
 	rtmr0_3p3_reg_en: rtmr0-3p3-reg-en-state {
 		pins = "gpio11";
-		function = "func1";
+		function = "normal";
+		power-source = <1>; /* 1.8V */
+		bias-disable;
 		input-disable;
 		output-enable;
 	};
 };
 
 &pm8550ve_8_gpios {
-	rtmr0_1p15_reg_en: rtmr0-1p15-reg-en-state {
-		pins = "gpio8";
-		function = "func1";
-		input-disable;
-		output-enable;
+	misc_3p3_reg_en: misc-3p3-reg-en-state {
+		pins = "gpio6";
+		function = "normal";
+		bias-disable;
 	};
 };
 
 &pm8550ve_9_gpios {
 	rtmr0_1p8_reg_en: rtmr0-1p8-reg-en-state {
 		pins = "gpio8";
-		function = "func1";
+		function = "normal";
+		power-source = <1>; /* 1.8V */
+		bias-disable;
 		input-disable;
 		output-enable;
 	};
@@ -941,6 +1043,34 @@
 		pins = "gpio4";
 		function = "normal";
 		power-source = <1>; /* 1.8V */
+		input-disable;
+		output-enable;
+	};
+
+	edp_bl_reg_en: edp-bl-reg-en-state {
+		pins = "gpio10";
+		function = "normal";
+	};
+
+};
+
+&pmk8550_gpios {
+	edp_bl_pwm: edp-bl-pwm-state {
+		pins = "gpio5";
+		function = "func3";
+	};
+};
+
+&pmk8550_pwm {
+	status = "okay";
+};
+
+&pmc8380_5_gpios {
+	rtmr0_1p15_reg_en: rtmr0-1p15-reg-en-state {
+		pins = "gpio8";
+		function = "normal";
+		power-source = <1>; /* 1.8V */
+		bias-disable;
 		input-disable;
 		output-enable;
 	};
@@ -989,6 +1119,7 @@
 &tlmm {
 	gpio-reserved-ranges = <34 2>, /* Unused */
 			       <44 4>, /* SPI (TPM) */
+			       <72 2>, /* Secure EC I2C connection (?) */
 			       <238 1>; /* UFS Reset */
 
 	bt_en_default: bt-en-sleep {
@@ -1095,6 +1226,13 @@
 
 	rtmr1_3p3_reg_en: rtmr1-3p3-reg-en-state {
 		pins = "gpio186";
+		function = "gpio";
+		drive-strength = <2>;
+		bias-disable;
+	};
+
+	rtmr1_default: rtmr1-reset-n-active-state {
+		pins = "gpio176";
 		function = "gpio";
 		drive-strength = <2>;
 		bias-disable;

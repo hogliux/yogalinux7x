@@ -1,3 +1,20 @@
+linux-qcom-x1e (6.11.0-55.55) oracular; urgency=medium
+
+  [ Tobias Heider ]
+  * Revert "arm64: dts: qcom: x1e80100: enable OTG on USB-C controllers"
+
+  [ Srinivas Kandagatla ]
+  * wip: arm64: qcom: x1e78100: add sound support
+
+  [ Krzysztof Kozlowski ]
+  * ASoC: qcom: x1e80100: Support boards with two speakers
+
+  [ Davide Ricci ]
+  * Changes: tweaks to x1e80100 sounds driver to enable T14s two speakers
+  * Change: cracking sound fix
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Wed, 20 Nov 2024 13:53:29 +0100
+
 linux-qcom-x1e (6.11.0-53.53) oracular; urgency=medium
 
   [ Jens Glathe ]

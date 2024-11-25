@@ -263,4 +263,10 @@ config SND_AC97_POWER_SAVE_DEFAULT
 
 	  See SND_AC97_POWER_SAVE for more details.
 
+config SND_MERGING_RAVENNA_ALSA
+       tristate "Virtual ALSA driver for Ravenna network audio"
+       depends on PTP_1588_CLOCK
+       depends on INET
+       default n
+
 endif	# SND_DRIVERS

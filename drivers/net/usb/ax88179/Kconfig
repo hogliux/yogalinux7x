@@ -1,0 +1,112 @@
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# ASIX AX88179/178A configuration
+#
+menuconfig USB_NET_AX88179_178A
+	tristate "ASIX AX88179/178A USB 3.0/2.0 to Gigabit Ethernet"
+	depends on USB_NET_DRIVERS
+	select CRC32
+	select PHYLIB
+	default n
+	help
+	  This option adds support for ASIX AX88179 based USB 3.0/2.0
+	  to Gigabit Ethernet adapters.
+
+	  This driver should work with at least the following devices:
+	    * ASIX AX88179
+	    * ASIX AX88178A
+	    * Sitcomm LN-032
+
+	  This driver creates an interface named "ethX", where X depends on
+	  what other networking devices you have in use.
+
+if USB_NET_AX88179_178A
+
+config ENABLE_AX88179_178A_AX88279
+       bool "Enable AX88279 support"
+       depends on USB_NET_AX88179_178A
+       default y
+       help
+	 Enables AX88279 support
+
+config ENABLE_AX88179_178A_IOCTL_DEBUG
+       bool "Enable IOCTL debug"
+       depends on USB_NET_AX88179_178A
+       default n
+       help
+	 Not ioctl debugging
+
+config ENABLE_AX88179_178A_AUTODETACH_FUNC
+       bool "Enable autodetach function"
+       depends on USB_NET_AX88179_178A
+       default n
+       help
+         Enable autodetach function
+
+config ENABLE_AX88179_178A_MAC_PASS
+       bool "Enable MAC pass"
+       depends on USB_NET_AX88179_178A
+       default n
+       help
+         Enable MAC pass
+
+config ENABLE_AX88179_178A_INT_AGGRESSIVE
+       bool "Enable aggressive interrupt processing"
+       depends on USB_NET_AX88179_178A
+       default n
+       help
+         Enable aggressive interrupt processing
+
+config ENABLE_AX88179_178A_INT_POLLING
+       bool "Enable aggressive interrupt polling"
+       depends on USB_NET_AX88179_178A
+       default n
+       help
+         Enable aggressive interrupt polling
+
+config ENABLE_AX88179_178A_AUTOSUSPEND
+       bool "Enable autosuspend"
+       depends on USB_NET_AX88179_178A
+       default n
+       help
+         Enable autosuspend
+
+config ENABLE_AX88179_178A_TX_TASKLET
+       bool "Enable transmit tasklets"
+       depends on USB_NET_AX88179_178A
+       default n
+       help
+         Enable transmit tasklets
+
+config ENABLE_AX88179_178A_RX_TASKLET
+       bool "Enable receive tasklets"
+       depends on USB_NET_AX88179_178A
+       default n
+       help
+         Enable receive tasklets
+
+config ENABLE_AX88179_178A_PTP_FUNC
+       bool "Enable PTP support"
+       depends on USB_NET_AX88179_178A
+       depends on PTP_1588_CLOCK
+       default n
+       help
+         Enables support for the precision time protocol
+
+config ENABLE_AX88179_178A_PTP_DEBUG
+       bool "Enable PTP debugging support"
+       depends on USB_NET_AX88179_178A
+       depends on PTP_1588_CLOCK
+       depends on ENABLE_AX88179_178A_PTP_FUNC
+       default n
+       help
+         Enables support for debugging the precision time protocol
+
+config ENABLE_AX88179_178A_QUEUE_PRIORITY
+       bool "Enable priority queues"
+       depends on USB_NET_AX88179_178A
+       default n
+       help
+         Enable priority queues
+
+endif # USB_NET_AX88179_178A

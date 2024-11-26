@@ -1,3 +1,16 @@
+linux-qcom-x1e (6.12.0-12.12) oracular; urgency=medium
+
+  [ Aleksandrs Vinarskis ]
+  * HID: i2c-hid: introduce re-power-on quirk
+  * HID: i2c-hid: introduce qtec vendor, enable re-power-on quirk
+
+  [ Maud Spierings ]
+  * arm64: dts: qcom: x1e80100-vivobook-s15: Use the samsung,atna33xc20 panel driver
+  * arm64: dts: qcom: x1e80100-vivobook-s15: Add lid switch
+  * arm64: dts: qcom: x1e80100-vivobook-s15: Add bluetooth
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Tue, 26 Nov 2024 12:29:04 +0100
+
 linux-qcom-x1e (6.12.0-11.11) oracular; urgency=medium
 
   [ Johan Hovold ]

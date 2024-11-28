@@ -1,3 +1,22 @@
+linux-qcom-x1e (6.12.0-15.15) oracular; urgency=medium
+
+  [ Victorien ]
+  * arm64: dts: qcom: x1p64100-acer-swift-sf14-11 dt for Acer Swift 14 SF14-11 (touchpad fix)
+
+  [ Tobias Heider ]
+  * arm64: dts: qcom: x1p64100-acer-swift-sf14-11: drop more audio stuff
+  * dt-bindings: arm: qcom: Add Acer Swift 14 AI
+  * arm64: dts: qcom: x1p64100-acer-swift-sf14-11: drop broken bluetooth
+
+  [ Krzysztof Kozlowski ]
+  * ASoC: qcom: x1e80100: Support boards with two speakers
+
+  [ Davide Ricci ]
+  * Changes: tweaks to x1e80100 sounds driver to enable T14s two speakers
+  * Change: cracking sound fix
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Thu, 28 Nov 2024 12:53:10 +0100
+
 linux-qcom-x1e (6.12.0-14.14) oracular; urgency=medium
 
   [ Tobias Heider ]

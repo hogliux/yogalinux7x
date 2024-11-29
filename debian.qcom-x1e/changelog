@@ -1,3 +1,10 @@
+linux-qcom-x1e (6.12.0-17.17) oracular; urgency=medium
+
+  [ Aleksandrs Vinarskis ]
+  * arm64: dts: qcom: x1e80100-dell-xps13-9345: Enable external DP support
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Fri, 29 Nov 2024 01:01:31 +0100
+
 linux-qcom-x1e (6.12.0-16.16) oracular; urgency=medium
 
   [ Johan Hovold ]

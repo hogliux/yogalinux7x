@@ -1,3 +1,51 @@
+linux-qcom-x1e (6.12.0-18.18) oracular; urgency=medium
+
+  [ Masahiro Yamada ]
+  * UBUNTU: [Packaging] avoid arch-specific certificate creation
+
+  [ Chia-Lin Kao (AceLan) ]
+  * UBUNTU: SAUCE: iommu/intel: disable DMAR for KBL and CML integrated gfx
+
+  [ Paolo Pisati ]
+  * Revert "lsm: remove LSM_COUNT and LSM_CONFIG_COUNT"
+  * Revert "lsm: replace indirect LSM hook calls with static calls"
+  * Revert "init/main.c: Initialize early LSMs after arch code, static keys and calls."
+  * UBUNTU: Start new release
+  * UBUNTU: link-to-tracker: update tracking bug
+  * UBUNTU: [Packaging] debian.master/dkms-versions -- update from kernel-versions (main/d2024.11.12)
+  * UBUNTU: Ubuntu-unstable-6.12.0-4.4
+
+  [ Tobias Heider ]
+  * UBUNTU: Add explicit kernel command line flag to make sure audio doesn't get enabled by accident.
+  * Revert: arm64: dts: qcom: x1p64100-acer-swift-sf14-11: drop broken bluetooth
+
+  [ Maud Spierings ]
+  * arm64: dts: qcom: x1e80100-vivobook-s15: Use the samsung,atna33xc20 panel driver
+  * arm64: dts: qcom: x1e80100-vivobook-s15: Add lid switch
+  * arm64: dts: qcom: x1e80100-vivobook-s15: Add bluetooth
+
+  [ Krzysztof Kozlowski ]
+  * arm64: dts: qcom: sm8350: Fix CDSP memory base and length
+  * arm64: dts: qcom: sm8350: Fix MPSS memory length
+  * arm64: dts: qcom: sm8450: Fix ADSP memory base and length
+  * arm64: dts: qcom: sm8450: Fix CDSP memory length
+  * arm64: dts: qcom: sm8450: Fix MPSS memory length
+  * arm64: dts: qcom: sm8550: Fix ADSP memory base and length
+  * arm64: dts: qcom: sm8550: Fix CDSP memory length
+  * arm64: dts: qcom: sm8550: Fix MPSS memory length
+  * arm64: dts: qcom: sm8650: Fix ADSP memory base and length
+  * arm64: dts: qcom: sm8650: Fix CDSP memory length
+  * arm64: dts: qcom: sm8650: Fix MPSS memory length
+  * arm64: dts: qcom: x1e80100: Fix ADSP memory base and length
+  * arm64: dts: qcom: x1e80100: Fix CDSP memory length
+  * arm64: dts: qcom: sm6350: Fix ADSP memory length
+  * arm64: dts: qcom: sm6350: Fix MPSS memory length
+  * arm64: dts: qcom: sm6375: Fix ADSP memory length
+  * arm64: dts: qcom: sm6375: Fix CDSP memory base and length
+  * arm64: dts: qcom: sm6375: Fix MPSS memory base and length
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Tue, 10 Dec 2024 14:48:40 +0100
+
 linux-qcom-x1e (6.12.0-17.17) oracular; urgency=medium
 
   [ Aleksandrs Vinarskis ]

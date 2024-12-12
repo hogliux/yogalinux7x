@@ -1,3 +1,11 @@
+linux-qcom-x1e (6.12.0-19.19) oracular; urgency=medium
+
+  [ Tobias Heider ]
+  * UBUNTU: qcom-ice makes problem, drop it for now
+  * fixup: arm64: dts: qcom: x1e78100-lenovo-thinkpad-t14s: Add bluetooth
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Thu, 12 Dec 2024 14:15:01 +0100
+
 linux-qcom-x1e (6.12.0-18.18) oracular; urgency=medium
 
   [ Masahiro Yamada ]

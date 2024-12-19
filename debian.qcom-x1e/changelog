@@ -1,3 +1,16 @@
+linux-qcom-x1e (6.12.0-21.21) oracular; urgency=medium
+
+  [ Tobias Heider ]
+  * UBUNTU: rebase onto Ubuntu-unstable-6.12.0-5.5
+
+  [ honzikd ]
+  * arm64: dts: qcom: x1e80100-vivobook-s15: add external DP
+
+  [ Anthony Ruhier ]
+  * arm64: dts: qcom: x1e80100-lenovo-yoga-slim7x: Add lid switch
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Thu, 19 Dec 2024 15:03:45 +0100
+
 linux-qcom-x1e (6.12.0-20.20) oracular; urgency=medium
 
   [ Yuvaraj Ranganathan ]

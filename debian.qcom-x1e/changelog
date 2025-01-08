@@ -1,3 +1,15 @@
+linux-qcom-x1e (6.12.0-22.22) oracular; urgency=medium
+
+  [ Aleksandrs Vinarskis ]
+  * arm64: dts: qcom: x1e80100-dell-xps13-9345: Enable HBR3 on external DPs
+  * arm64: dts: qcom: x1e80100-hp-x14: Enable HBR3 on external DPs
+  * arm64: dts: qcom: x1e80100-vivobook-s15: Enable HBR3 on external DPs
+  * arm64: dts: qcom: x1e80100-acer-swift-sf14-11: Enable HBR3 on external DPs
+  * arm64: dts: qcom: x1e001de-devkit: Enable HBR3 on external DPs
+  * arm64: dts: qcom: x1e80100-t14s: Enable HBR3 on external DPs
+
+ -- Tobias Heider <tobias.heider@canonical.com>  Wed, 08 Jan 2025 15:08:35 +0100
+
 linux-qcom-x1e (6.12.0-21.21) oracular; urgency=medium
 
   [ Tobias Heider ]

@@ -310,6 +310,7 @@
 			compatible = "qcom,scm-x1e80100", "qcom,scm";
 			interconnects = <&aggre2_noc MASTER_CRYPTO QCOM_ICC_TAG_ALWAYS
 					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
+			qcom,dload-mode = <&tcsr 0x19000>;
 		};
 	};
 
@@ -2933,6 +2934,8 @@
 			linux,pci-domain = <6>;
 			num-lanes = <4>;
 
+			msi-map = <0x0 &gic_its 0xe0000 0x10000>;
+
 			interrupts = <GIC_SPI 773 IRQ_TYPE_LEVEL_HIGH>,
 				     <GIC_SPI 774 IRQ_TYPE_LEVEL_HIGH>,
 				     <GIC_SPI 837 IRQ_TYPE_LEVEL_HIGH>,
@@ -3181,6 +3184,8 @@
 
 			linux,pci-domain = <4>;
 			num-lanes = <2>;
+
+			msi-map = <0x0 &gic_its 0xc0000 0x10000>;
 
 			interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>,
 				     <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>,
@@ -5747,6 +5752,8 @@
 
 			#iommu-cells = <2>;
 			#global-interrupts = <1>;
+
+			dma-coherent;
 		};
 
 		intc: interrupt-controller@17000000 {
@@ -5772,8 +5779,6 @@
 
 				msi-controller;
 				#msi-cells = <1>;
-
-				status = "disabled";
 			};
 		};
 

@@ -12986,3 +12986,5 @@ CONFIG_ZYNQMP_IPI_MBOX                          policy<{'arm64': 'y'}>
 CONFIG_ZYNQMP_PM_DOMAINS                        policy<{'arm64': 'y'}>
 CONFIG_ZYNQMP_POWER                             policy<{'arm64': 'y'}>
 CONFIG_EC_LENOVO_YOGA_SLIM7X                    policy<{'arm64': 'm'}>
+CONFIG_VIDEO_QCOM_IRIS                          policy<{'arm64': 'm'}>
+CONFIG_SM_VIDEOCC_8550                          policy<{'arm64': 'm'}>

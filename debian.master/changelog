@@ -1,3 +1,9 @@
+linux (7.0.0-90.90) resolute; urgency=medium
+
+  * Personal hogliux changes
+
+ -- hogliux <fabian.renn@gmail.com>  Tue, 5 May 2026 14:02:19 +0200
+
 linux (7.0.0-15.15) resolute; urgency=medium
 
   * resolute/linux: 7.0.0-15.15 -proposed tracker (LP: #2148866)

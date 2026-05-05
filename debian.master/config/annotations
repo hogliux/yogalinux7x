@@ -593,6 +593,9 @@ CONFIG_SATA_HIGHBANK                            note<'LP: #1703430'>
 CONFIG_SCHED_TOPOLOGY_VERTICAL                  policy<{'s390x': 'y'}>
 CONFIG_SCHED_TOPOLOGY_VERTICAL                  note<'LP: #2072760'>
 
+CONFIG_SCHED_BORE				policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y'}>
+CONFIG_MIN_BASE_SLICE_NS			policy<{'amd64': '2000000', 'arm64': '2000000', 'armhf': '2000000', 'ppc64el': '2000000', 'riscv64': '2000000'}>
+
 CONFIG_SCLP_OFB                                 policy<{'s390x': 'y'}>
 CONFIG_SCLP_OFB                                 note<'LP: #1787898'>
 
@@ -4982,6 +4985,7 @@ CONFIG_EC_HUAWEI_GAOKUN                         policy<{'arm64': 'm'}>
 CONFIG_EC_LENOVO_THINKPAD_T14S                  policy<{'arm64': 'm'}>
 CONFIG_EC_LENOVO_YOGA_C630                      policy<{'arm64-generic': 'm', 'arm64-generic-64k': 'n'}>
 CONFIG_EC_LENOVO_YOGA_SLIM7X                    policy<{'arm64': 'm'}>
+CONFIG_EC_DELL_XPS				policy<{'arm64': 'n'}>
 CONFIG_EDAC                                     policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y'}>
 CONFIG_EDAC_ALTERA                              policy<{'arm64': 'y', 'armhf': 'y'}>
 CONFIG_EDAC_ALTERA_ETHERNET                     policy<{'arm64': 'y', 'armhf': 'y'}>

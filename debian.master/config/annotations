@@ -237,8 +237,16 @@ CONFIG_GPIO_EM                                  note<'h/w not encounted'>
 CONFIG_GPIO_TWL4030                             policy<{'amd64': 'm', 'arm64': 'm', 'armhf': 'y', 'ppc64el': 'm', 'riscv64': 'm', 's390x': '-'}>
 CONFIG_GPIO_TWL4030                             note<'LP: #921934'>
 
-CONFIG_HIBERNATION                              policy<{'amd64': 'y', 'arm64': 'n', 'armhf': 'y', 'ppc64el': 'n', 'riscv64': 'y'}>
+CONFIG_HIBERNATION                              policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'n', 'riscv64': 'y'}>
 CONFIG_HIBERNATION                              note<'LP: #1867753'>
+
+CONFIG_ARCH_HIBERNATION_HEADER			policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'n', 'riscv64': 'y'}>
+CONFIG_HIBERNATE_CALLBACKS			policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'n', 'riscv64': 'y'}>
+CONFIG_HIBERNATION_COMP_LZ4			policy<{'amd64': 'n', 'arm64': 'n', 'armhf': 'n', 'ppc64el': 'n', 'riscv64': 'n'}>
+CONFIG_HIBERNATION_COMP_LZO			policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'n', 'riscv64': 'y'}>
+CONFIG_HIBERNATION_DEF_COMP			policy<{'amd64': '"lzo"', 'arm64': '"lzo"', 'armhf': '"lzo"', 'ppc64el': '"lzo"', 'riscv64': '"lzo"'}>
+CONFIG_HIBERNATION_SNAPSHOT_DEV			policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'n', 'riscv64': 'y'}>
+CONFIG_PM_STD_PARTITION				policy<{'amd64': '""', 'arm64': '""', 'armhf': '""', 'ppc64el': '""', 'riscv64': '""'}>
 
 CONFIG_HIPERDISPATCH_ON                         policy<{'s390x': 'y'}>
 CONFIG_HIPERDISPATCH_ON                         note<'LP: #2072760'>

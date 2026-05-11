@@ -34,6 +34,7 @@
 #define OV02C10_EXPOSURE_MIN		4
 #define OV02C10_EXPOSURE_MAX_MARGIN	8
 #define OV02C10_EXPOSURE_STEP		1
+#define OV02C10_EXPOSURE_DEFAULT	0x046c
 
 /* Analog gain controls from sensor */
 #define OV02C10_REG_ANALOG_GAIN		CCI_REG16(0x3508)
@@ -75,6 +76,9 @@ struct ov02c10_mode {
 	/* Sensor register settings for this resolution */
 	const struct reg_sequence *reg_sequence;
 	const int sequence_length;
+	/* Additional register settings for this output format/crop */
+	const struct reg_sequence *format_settings;
+	const int format_settings_length;
 	/* Sensor register settings for 1 or 2 lane config */
 	const struct reg_sequence *lane_settings[2];
 	const int lane_settings_length[2];
@@ -350,6 +354,8 @@ static const struct ov02c10_mode supported_modes[] = {
 		.vts_min = 1164,
 		.reg_sequence = sensor_1928x1092_30fps_setting,
 		.sequence_length = ARRAY_SIZE(sensor_1928x1092_30fps_setting),
+		.format_settings = NULL,
+		.format_settings_length = 0,
 		.lane_settings = {
 			sensor_1928x1092_30fps_1lane_setting,
 			sensor_1928x1092_30fps_2lane_setting
@@ -389,6 +395,7 @@ struct ov02c10 {
 	/* MIPI lane info */
 	u32 link_freq_index;
 	u8 mipi_lanes;
+	const struct ov02c10_mode *cur_mode;
 };
 
 static inline struct ov02c10 *to_ov02c10(struct v4l2_subdev *subdev)
@@ -411,11 +418,25 @@ static int ov02c10_test_pattern(struct ov02c10 *ov02c10, int pattern)
 	return ret;
 }
 
+static const struct ov02c10_mode *ov02c10_find_mode(u32 width, u32 height)
+{
+	unsigned int i;
+
+	for (i = 0; i < ARRAY_SIZE(supported_modes); i++) {
+		if (supported_modes[i].width == width &&
+		    supported_modes[i].height == height)
+			return &supported_modes[i];
+	}
+
+	return &supported_modes[0];
+}
+
 static int ov02c10_set_ctrl(struct v4l2_ctrl *ctrl)
 {
 	struct ov02c10 *ov02c10 = container_of(ctrl->handler,
 					     struct ov02c10, ctrl_handler);
-	const u32 height = supported_modes[0].height;
+	const struct ov02c10_mode *mode = ov02c10->cur_mode ?: &supported_modes[0];
+	const u32 height = mode->height;
 	s64 exposure_max;
 	int ret = 0;
 
@@ -489,7 +510,7 @@ static const struct v4l2_ctrl_ops ov02c10_ctrl_ops = {
 static int ov02c10_init_controls(struct ov02c10 *ov02c10)
 {
 	struct v4l2_ctrl_handler *ctrl_hdlr = &ov02c10->ctrl_handler;
-	const struct ov02c10_mode *mode = &supported_modes[0];
+	const struct ov02c10_mode *mode = ov02c10->cur_mode ?: &supported_modes[0];
 	u32 vblank_min, vblank_max, vblank_default, vts_def;
 	struct v4l2_fwnode_device_properties props;
 	s64 exposure_max, h_blank, pixel_rate;
@@ -545,7 +566,8 @@ static int ov02c10_init_controls(struct ov02c10 *ov02c10)
 					      OV02C10_EXPOSURE_MIN,
 					      exposure_max,
 					      OV02C10_EXPOSURE_STEP,
-					      exposure_max);
+					      min_t(s64, exposure_max,
+						    OV02C10_EXPOSURE_DEFAULT));
 
 	v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops, V4L2_CID_HFLIP,
 			  0, 1, 1, 0);
@@ -585,8 +607,8 @@ static int ov02c10_enable_streams(struct v4l2_subdev *sd,
 				  struct v4l2_subdev_state *state,
 				  u32 pad, u64 streams_mask)
 {
-	const struct ov02c10_mode *mode = &supported_modes[0];
 	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+	const struct ov02c10_mode *mode = ov02c10->cur_mode ?: &supported_modes[0];
 	const struct reg_sequence *reg_sequence;
 	int ret, sequence_length;
 
@@ -610,6 +632,16 @@ static int ov02c10_enable_streams(struct v4l2_subdev *sd,
 	if (ret) {
 		dev_err(ov02c10->dev, "failed to write lane settings\n");
 		goto out;
+	}
+
+	if (mode->format_settings_length) {
+		ret = regmap_multi_reg_write(ov02c10->regmap,
+					     mode->format_settings,
+					     mode->format_settings_length);
+		if (ret) {
+			dev_err(ov02c10->dev, "failed to write format settings\n");
+			goto out;
+		}
 	}
 
 	ret = __v4l2_ctrl_handler_setup(ov02c10->sd.ctrl_handler);
@@ -704,8 +736,9 @@ static int ov02c10_set_format(struct v4l2_subdev *sd,
 			      struct v4l2_subdev_state *sd_state,
 			      struct v4l2_subdev_format *fmt)
 {
-	const struct ov02c10_mode *mode = &supported_modes[0];
 	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+	const struct ov02c10_mode *mode =
+		ov02c10_find_mode(fmt->format.width, fmt->format.height);
 	s32 vblank_def, h_blank;
 
 	ov02c10_update_pad_format(mode, &fmt->format);
@@ -713,6 +746,8 @@ static int ov02c10_set_format(struct v4l2_subdev *sd,
 
 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
 		return 0;
+
+	ov02c10->cur_mode = mode;
 
 	/* Update limits and set FPS to default */
 	vblank_def = mode->vts_min * ov02c10->mipi_lanes - mode->height;
@@ -755,6 +790,46 @@ static int ov02c10_enum_frame_size(struct v4l2_subdev *sd,
 	return 0;
 }
 
+static int ov02c10_get_selection(struct v4l2_subdev *sd,
+				 struct v4l2_subdev_state *sd_state,
+				 struct v4l2_subdev_selection *sel)
+{
+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+	const struct ov02c10_mode *mode = ov02c10->cur_mode ?: &supported_modes[0];
+	struct v4l2_rect bounds = {
+		.left = 0,
+		.top = 0,
+		.width = supported_modes[0].width,
+		.height = supported_modes[0].height,
+	};
+	struct v4l2_rect crop = {
+		.left = 0,
+		.top = 0,
+		.width = mode->width,
+		.height = mode->height,
+	};
+
+	if (sel->pad != 0)
+		return -EINVAL;
+
+	if (mode->width == 1920 && mode->height == 1080) {
+		crop.left = 4;
+		crop.top = 6;
+	}
+
+	switch (sel->target) {
+	case V4L2_SEL_TGT_CROP:
+	case V4L2_SEL_TGT_CROP_DEFAULT:
+		sel->r = crop;
+		return 0;
+	case V4L2_SEL_TGT_CROP_BOUNDS:
+		sel->r = bounds;
+		return 0;
+	default:
+		return -EINVAL;
+	}
+}
+
 static int ov02c10_init_state(struct v4l2_subdev *sd,
 			      struct v4l2_subdev_state *sd_state)
 {
@@ -773,6 +848,7 @@ static const struct v4l2_subdev_pad_ops ov02c10_pad_ops = {
 	.get_fmt = v4l2_subdev_get_fmt,
 	.enum_mbus_code = ov02c10_enum_mbus_code,
 	.enum_frame_size = ov02c10_enum_frame_size,
+	.get_selection = ov02c10_get_selection,
 	.enable_streams = ov02c10_enable_streams,
 	.disable_streams = ov02c10_disable_streams,
 };
@@ -885,6 +961,7 @@ static int ov02c10_probe(struct i2c_client *client)
 		return -ENOMEM;
 
 	ov02c10->dev = &client->dev;
+	ov02c10->cur_mode = &supported_modes[0];
 
 	ov02c10->img_clk = devm_v4l2_sensor_clk_get(ov02c10->dev, NULL);
 	if (IS_ERR(ov02c10->img_clk))
